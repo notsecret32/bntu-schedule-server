@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model EducationForm {
+  id     Int     @id @default(autoincrement())
+  name   String
+  groups Group[]
+}
+
+model Faculty {
+  id     Int     @id @default(autoincrement())
+  name   String
+  groups Group[]
+}
+
+model Cource {
+  id     Int     @id @default(autoincrement())
+  number Int
+  groups Group[]
+}
+
+model Group {
+  id              Int                 @id @default(autoincrement())
+  educationForm   EducationForm       @relation(fields: [educationFormId], references: [id])
+  educationFormId Int
+  faculty         Faculty             @relation(fields: [facultyId], references: [id])
+  facultyId       Int
+  cource          Cource              @relation(fields: [courceId], references: [id])
+  courceId        Int
+  number          String
+  schedules       SchedulesOnGroups[]
+}
+
+model WeekDay {
+  id        Int        @id @default(autoincrement())
+  name      String
+  schedules Schedule[]
+}
+
+model WeekType {
+  id        Int        @id @default(autoincrement())
+  name      String
+  schedules Schedule[]
+}
+
+model Time {
+  id        Int        @id @default(autoincrement())
+  start     DateTime
+  end       DateTime
+  schedules Schedule[]
+}
+
+model Subject {
+  id        Int        @id @default(autoincrement())
+  name      String
+  schedules Schedule[]
+}
+
+model SubjectType {
+  id        Int        @id @default(autoincrement())
+  name      String
+  schedules Schedule[]
+}
+
+model Teacher {
+  id        Int        @id @default(autoincrement())
+  initials  String
+  schedules Schedule[]
+}
+
+model Auditorium {
+  id         Int        @id @default(autoincrement())
+  number     Int
+  Building   Building   @relation(fields: [buildingId], references: [id])
+  buildingId Int
+  schedules  Schedule[]
+}
+
+model Building {
+  id         Int          @id @default(autoincrement())
+  number     Int
+  auditories Auditorium[]
+}
+
+model Schedule {
+  id     Int                 @id @default(autoincrement())
+  groups SchedulesOnGroups[]
+
+  weekDay       WeekDay     @relation(fields: [weekDayId], references: [id])
+  weekDayId     Int
+  weekType      WeekType    @relation(fields: [weekTypeId], references: [id])
+  weekTypeId    Int
+  time          Time        @relation(fields: [timeId], references: [id])
+  timeId        Int
+  subject       Subject     @relation(fields: [subjectId], references: [id])
+  subjectId     Int
+  subjectType   SubjectType @relation(fields: [subjectTypeId], references: [id])
+  subjectTypeId Int
+  teacher       Teacher     @relation(fields: [teacherId], references: [id])
+  teacherId     Int
+  auditorium    Auditorium  @relation(fields: [auditoriumId], references: [id])
+  auditoriumId  Int
+}
+
+model SchedulesOnGroups {
+  group      Group    @relation(fields: [groupId], references: [id])
+  groupId    Int
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+  scheduleId Int
+
+  @@id([groupId, scheduleId])
+}
+
+model Exam {
+  id          Int      @id @default(autoincrement())
+  name        String
+  desctiption String?
+  date        DateTime
+}
+
+model News {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+}
