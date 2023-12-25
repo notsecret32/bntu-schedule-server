@@ -1,0 +1,49 @@
+{
+	"name": "bntu-schedule-server",
+	"version": "1.0.0",
+	"description": "The server part of the mobile application for viewing schedules in the BNTU.",
+	"main": "src/index.ts",
+	"scripts": {
+		"start": "node ./src/index.ts",
+		"dev": "nodemon ./src/index.ts",
+		"prettier": "prettier --write \"app/**/*.ts\"",
+		"prettier:check": "prettier --check \"app/**/*.ts\"",
+		"lint": "eslint --ignore-path .eslintignore \"app/**/*.ts\" --fix",
+		"lint:check": "eslint --ignore-path .eslintignore \"app/**/*.ts\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/notsecret32/bntu-schedule-server.git"
+	},
+	"author": "Alexander Skvorchevskiy",
+	"license": "CC BY-NC-ND 4.0 International",
+	"homepage": "https://github.com/notsecret32/bntu-schedule-server#readme",
+	"devDependencies": {
+		"@trivago/prettier-plugin-sort-imports": "^4.2.0",
+		"@types/express": "^4.17.21",
+		"@types/node": "^20.10.5",
+		"eslint": "^8.48.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-config-standard": "^17.1.0",
+		"eslint-plugin-import": "^2.28.1",
+		"eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-prettier": "^5.0.0",
+		"eslint-plugin-promise": "^6.1.1",
+		"morgan": "^1.10.0",
+		"nodemon": "^3.0.2",
+		"prettier": "^3.0.3",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"@prisma/client": "^5.2.0",
+		"argon2": "^0.31.1",
+		"cors": "^2.8.5",
+		"dotenv": "^16.3.1",
+		"express": "^4.18.2",
+		"express-async-handler": "^1.2.0",
+		"jsonwebtoken": "^9.0.2",
+		"prisma": "^5.7.1"
+	}
+}
