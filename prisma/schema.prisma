@@ -9,13 +9,13 @@ datasource db {
 
 model EducationForm {
   id     Int     @id @default(autoincrement())
-  name   String
+  name   String  @db.VarChar(7)
   groups Group[]
 }
 
 model Faculty {
   id     Int     @id @default(autoincrement())
-  name   String
+  name   String  @db.VarChar(64)
   groups Group[]
 }
 
@@ -39,7 +39,7 @@ model Group {
 
 model WeekDay {
   id        Int        @id @default(autoincrement())
-  name      String
+  name      String     @db.VarChar(11)
   schedules Schedule[]
 }
 
@@ -58,13 +58,13 @@ model Time {
 
 model Subject {
   id        Int        @id @default(autoincrement())
-  name      String
+  name      String     @db.VarChar(128)
   schedules Schedule[]
 }
 
 model SubjectType {
   id        Int        @id @default(autoincrement())
-  name      String
+  name      String     @db.VarChar(24)
   schedules Schedule[]
 }
 
@@ -77,14 +77,14 @@ model Teacher {
 model Auditorium {
   id         Int        @id @default(autoincrement())
   number     Int
-  Building   Building   @relation(fields: [buildingId], references: [id])
+  building   Building   @relation(fields: [buildingId], references: [id])
   buildingId Int
   schedules  Schedule[]
 }
 
 model Building {
   id         Int          @id @default(autoincrement())
-  number     Int
+  number     String       @db.VarChar(3)
   auditories Auditorium[]
 }
 
@@ -119,13 +119,13 @@ model SchedulesOnGroups {
 
 model Exam {
   id          Int      @id @default(autoincrement())
-  name        String
-  desctiption String?
+  name        String   @db.VarChar(48)
+  desctiption String?  @db.VarChar(256)
   date        DateTime
 }
 
 model News {
   id          Int    @id @default(autoincrement())
-  title       String
-  description String
+  title       String @db.VarChar(48)
+  description String @db.VarChar(256)
 }
