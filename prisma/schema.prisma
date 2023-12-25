@@ -19,7 +19,7 @@ model Faculty {
   groups Group[]
 }
 
-model Cource {
+model Course {
   id     Int     @id @default(autoincrement())
   number Int
   groups Group[]
