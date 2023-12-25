@@ -31,8 +31,8 @@ model Group {
   educationFormId Int
   faculty         Faculty             @relation(fields: [facultyId], references: [id])
   facultyId       Int
-  cource          Course              @relation(fields: [courceId], references: [id])
-  courceId        Int
+  course          Course              @relation(fields: [courseId], references: [id])
+  courseId        Int
   number          String
   schedules       SchedulesOnGroups[]
 }
