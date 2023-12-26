@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
 import http from 'http'
+import { educationFormApi } from './api/education-form'
 
 const app = express()
 
@@ -15,6 +16,8 @@ app.use(
 		credentials: true,
 	}),
 )
+
+app.use('/api/education_forms', educationFormApi.router)
 
 const server = http.createServer(app)
 server.listen(3000, () => {
