@@ -1,11 +1,12 @@
 {
 	"compilerOptions": {
-		"esModuleInterop": true,
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
-		"target": "ES2020",
+		"outDir": "dist",
 		"sourceMap": true,
-		"outDir": "dist"
+		"noImplicitAny": true,
+		"baseUrl": "./src",
+		"strictNullChecks": true
 	},
 	"include": ["src/**/*"]
 }

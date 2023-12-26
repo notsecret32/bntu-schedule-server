@@ -1,27 +1,26 @@
-import dotenv from 'dotenv'
+import bodyParser from 'body-parser'
+import compression from 'compression'
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import express from 'express'
-import { prisma } from './db'
-
-dotenv.config()
+import http from 'http'
 
 const app = express()
 
-async function main() {
-	const PORT = process.env.PORT || 3000
+app.use(bodyParser.json())
+app.use(compression())
+app.use(cookieParser())
+app.use(
+	cors({
+		credentials: true,
+	}),
+)
 
-	app.listen(PORT, () =>
-		console.log(
-			`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
-		)
-	)
-}
+const server = http.createServer(app)
+server.listen(3000, () => {
+	console.log('Server running on http://localhost:3000/')
+})
 
-main()
-	.then(async () => {
-		await prisma.$disconnect()
-	})
-	.catch(async e => {
-		console.error(e)
-		await prisma.$disconnect()
-		process.exit(1)
-	})
+server.on('error', (error: Error) => {
+	console.error(error)
+})
