@@ -8,20 +8,42 @@ datasource db {
 }
 
 model EducationForm {
-  id     Int     @id @default(autoincrement())
-  name   String  @db.VarChar(7)
-  groups Group[]
+  id           Int                        @id @default(autoincrement())
+  name         String                     @unique @db.VarChar(7)
+  groups       Group[]
+  translations EducationFormTranslation[]
+}
+
+model EducationFormTranslation {
+  id Int @id @default(autoincrement())
+
+  language String @unique
+  name     String @unique
+
+  educationForm   EducationForm? @relation(fields: [educationFormId], references: [id])
+  educationFormId Int?
 }
 
 model Faculty {
-  id     Int     @id @default(autoincrement())
-  name   String  @db.VarChar(64)
-  groups Group[]
+  id           Int                  @id @default(autoincrement())
+  name         String               @unique @db.VarChar(64)
+  groups       Group[]
+  translations FacultyTranslation[]
+}
+
+model FacultyTranslation {
+  id Int @id @default(autoincrement())
+
+  language String @unique
+  name     String @unique
+
+  faculty   Faculty? @relation(fields: [facultyId], references: [id])
+  facultyId Int?
 }
 
 model Course {
   id     Int     @id @default(autoincrement())
-  number Int
+  number Int     @unique
   groups Group[]
 }
 
@@ -35,18 +57,42 @@ model Group {
   courseId        Int
   number          String
   schedules       SchedulesOnGroups[]
+
+  @@unique([educationFormId, facultyId, courseId, number])
 }
 
 model WeekDay {
-  id        Int        @id @default(autoincrement())
-  name      String     @db.VarChar(11)
-  schedules Schedule[]
+  id           Int                  @id @default(autoincrement())
+  name         String               @unique @db.VarChar(11)
+  schedules    Schedule[]
+  translations WeekDayTranslation[]
+}
+
+model WeekDayTranslation {
+  id Int @id @default(autoincrement())
+
+  language String @unique
+  name     String @unique
+
+  weekDay   WeekDay? @relation(fields: [weekDayId], references: [id])
+  weekDayId Int?
 }
 
 model WeekType {
-  id        Int        @id @default(autoincrement())
-  name      String
-  schedules Schedule[]
+  id           Int                   @id @default(autoincrement())
+  name         String                @unique
+  schedules    Schedule[]
+  translations WeekTypeTranslation[]
+}
+
+model WeekTypeTranslation {
+  id Int @id @default(autoincrement())
+
+  language String @unique
+  name     String @unique
+
+  weekType   WeekType? @relation(fields: [weekTypeId], references: [id])
+  weekTypeId Int?
 }
 
 model Time {
@@ -54,37 +100,74 @@ model Time {
   start     DateTime
   end       DateTime
   schedules Schedule[]
+
+  @@unique([start, end])
 }
 
 model Subject {
-  id        Int        @id @default(autoincrement())
-  name      String     @db.VarChar(128)
-  schedules Schedule[]
+  id           Int                  @id @default(autoincrement())
+  name         String               @unique @db.VarChar(128)
+  schedules    Schedule[]
+  translations SubjectTranslation[]
+}
+
+model SubjectTranslation {
+  id Int @id @default(autoincrement())
+
+  language String @unique
+  name     String @unique
+
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+  subjectId Int?
 }
 
 model SubjectType {
-  id        Int        @id @default(autoincrement())
-  name      String     @db.VarChar(24)
-  schedules Schedule[]
+  id           Int                      @id @default(autoincrement())
+  name         String                   @unique @db.VarChar(24)
+  schedules    Schedule[]
+  translations SubjectTypeTranslation[]
+}
+
+model SubjectTypeTranslation {
+  id Int @id @default(autoincrement())
+
+  language String @unique
+  name     String @unique
+
+  subjectType   SubjectType? @relation(fields: [subjectTypeId], references: [id])
+  subjectTypeId Int?
 }
 
 model Teacher {
-  id        Int        @id @default(autoincrement())
-  initials  String
-  schedules Schedule[]
+  id           Int                  @id @default(autoincrement())
+  initials     String               @unique
+  schedules    Schedule[]
+  translations TeacherTranslation[]
+}
+
+model TeacherTranslation {
+  id Int @id @default(autoincrement())
+
+  language String @unique
+  initials String @unique
+
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  teacherId Int?
 }
 
 model Auditorium {
   id         Int        @id @default(autoincrement())
-  number     Int
+  number     Int        @unique
   building   Building   @relation(fields: [buildingId], references: [id])
   buildingId Int
   schedules  Schedule[]
+
+  @@unique([buildingId, number])
 }
 
 model Building {
   id         Int          @id @default(autoincrement())
-  number     String       @db.VarChar(3)
+  number     String       @unique @db.VarChar(3)
   auditories Auditorium[]
 }
 
@@ -106,6 +189,8 @@ model Schedule {
   teacherId     Int
   auditorium    Auditorium  @relation(fields: [auditoriumId], references: [id])
   auditoriumId  Int
+
+  @@unique([weekDayId, weekTypeId, timeId, subjectId, subjectTypeId, teacherId, auditoriumId])
 }
 
 model SchedulesOnGroups {
@@ -118,14 +203,38 @@ model SchedulesOnGroups {
 }
 
 model Exam {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.VarChar(48)
-  desctiption String?  @db.VarChar(256)
-  date        DateTime
+  id           Int               @id @default(autoincrement())
+  name         String            @unique @db.VarChar(48)
+  desctiption  String?           @db.VarChar(256)
+  date         DateTime
+  translations ExamTranslation[]
+}
+
+model ExamTranslation {
+  id Int @id @default(autoincrement())
+
+  language    String @unique
+  name        String @unique
+  desctiption String
+
+  exam   Exam? @relation(fields: [examId], references: [id])
+  examId Int?
 }
 
 model News {
-  id          Int    @id @default(autoincrement())
-  title       String @db.VarChar(48)
-  description String @db.VarChar(256)
+  id           Int               @id @default(autoincrement())
+  title        String            @unique @db.VarChar(48)
+  description  String            @db.VarChar(256)
+  translations NewsTranslation[]
+}
+
+model NewsTranslation {
+  id Int @id @default(autoincrement())
+
+  language    String @unique
+  title       String @unique
+  description String
+
+  news   News? @relation(fields: [newsId], references: [id])
+  newsId Int?
 }
