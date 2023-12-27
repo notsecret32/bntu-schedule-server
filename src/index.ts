@@ -12,18 +12,18 @@ app.use(bodyParser.json())
 app.use(compression())
 app.use(cookieParser())
 app.use(
-	cors({
-		credentials: true,
-	}),
+  cors({
+    credentials: true,
+  }),
 )
 
 app.use('/api/education_forms', educationFormApi.router)
 
 const server = http.createServer(app)
 server.listen(3000, () => {
-	console.log('Server running on http://localhost:3000/')
+  console.log('Server running on http://localhost:3000/')
 })
 
 server.on('error', (error: Error) => {
-	console.error(error)
+  console.error(error)
 })
